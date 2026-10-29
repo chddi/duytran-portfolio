@@ -270,7 +270,7 @@ footer a{color:var(--muted)}
 
 
 /* ---------- Apple-style homepage tiles ---------- */
-.tiles{display:flex;flex-direction:column;gap:12px;padding-top:12px}
+.tiles{display:flex;flex-direction:column;gap:12px;padding-top:0}
 .tile-hero{display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden;color:var(--ink);
   padding-block:clamp(44px,6vw,56px) 0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .tile-hero:hover{text-decoration:none}
@@ -560,9 +560,9 @@ img.ld.in{opacity:1;transition:opacity .6s ease}
   display:flex;align-items:center;justify-content:center;opacity:0;transition:width .3s cubic-bezier(.2,.8,.2,1),height .3s cubic-bezier(.2,.8,.2,1),margin .3s cubic-bezier(.2,.8,.2,1),opacity .3s,background .3s;mix-blend-mode:normal}
 .cursor span{font-size:13px;font-weight:600;color:var(--bg);opacity:0;transition:opacity .2s}
 .cursor.on{opacity:.9}
-.cursor.big{width:76px;height:76px;margin:-38px 0 0 -38px;background:var(--accent)}
-.cursor.big span{opacity:1;color:#fff}
-.cursor.link{width:36px;height:36px;margin:-18px 0 0 -18px;opacity:.18}
+.cursor{--cur:#fff}
+.cursor.big,.cursor.link{opacity:1;background:var(--cur);box-shadow:0 0 0 1px rgba(0,0,0,.18),0 0 0 4px color-mix(in srgb,var(--cur) 30%,transparent),0 0 20px 5px color-mix(in srgb,var(--cur) 75%,transparent)}
+.cursor span{display:none}
 @media (pointer:coarse),(prefers-reduced-motion:reduce){.cursor{display:none}}
 
 /* back to top */
@@ -585,13 +585,13 @@ img.ld.in{opacity:1;transition:opacity .6s ease}
 
 /* back button */
 .nav-left{display:flex;align-items:center;gap:10px;min-width:0}
-.backbtn{display:inline-flex;align-items:center;gap:2px;font:inherit;font-size:13px;color:var(--accent);background:var(--surface);border:0;border-radius:980px;
-  padding:5px 12px 5px 8px;min-height:30px;cursor:pointer;max-width:42vw;transition:background .2s,transform .2s cubic-bezier(.2,.8,.2,1)}
-.backbtn:hover{background:var(--line)}
-.backbtn:active{transform:scale(.94)}
-.bk-ar{font-size:20px;line-height:1;margin-top:-2px;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.backbtn{display:inline-flex;align-items:center;gap:2px;font:inherit;font-size:15px;font-weight:600;letter-spacing:-.02em;line-height:1;color:var(--accent);background:none;border:0;border-radius:0;
+  padding:4px 0;min-height:28px;cursor:pointer;max-width:42vw;transition:opacity .2s}
+.backbtn:hover{opacity:.75}
+.backbtn:active{opacity:.6}
+.bk-ar{font-size:19px;line-height:1;margin-top:-2px;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
 .backbtn:hover .bk-ar{transform:translateX(-3px)}
-.bk-t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.back-t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px;font-weight:600}
 @media (prefers-reduced-motion:no-preference){.backbtn.in{animation:bk-in .45s cubic-bezier(.2,.8,.2,1)}@keyframes bk-in{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}}
 @media (max-width:480px){.backbtn ~ .brand{display:none}}
 
@@ -636,7 +636,13 @@ img.ld.in{opacity:1;transition:opacity .6s ease}
 .bgv.is-playing + .vtap{opacity:0;pointer-events:none;transform:scale(.8)}
 /* background video + film modal */
 .bgv{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;background:#000}
-.t-img .bgv{border-radius:18px 18px 0 0;aspect-ratio:2.12/1}
+.t-img .bgv{border-radius:0;aspect-ratio:2.12/1}
+/* full-bleed previews: span the tile edge to edge */
+.tile-hero:not(.intro) .t-img{align-self:stretch;width:auto;max-width:none;margin-left:calc(-1 * max(16px, env(safe-area-inset-left, 0px)));margin-right:calc(-1 * max(16px, env(safe-area-inset-right, 0px)))}
+.tile-hero .t-img img,.tile-hero .t-img .bgv{border-radius:0;aspect-ratio:2.4/1}
+.ttile .t-img{align-self:stretch;width:auto;max-width:none;margin-left:calc(-1 * clamp(16px,3vw,32px));margin-right:calc(-1 * clamp(16px,3vw,32px))}
+.ttile .t-img img,.ttile .t-img .bgv{border-radius:0}
+@media (max-width:640px){.tile-hero .t-img img,.tile-hero .t-img .bgv{aspect-ratio:16/10}}
 .case-img.has-video .bgv{border-radius:inherit}
 .vctl{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:20px}
 .vctl .pill{background:#0071e3;border-color:#0071e3;color:#fff;cursor:pointer;font:inherit;font-size:15px}
@@ -880,7 +886,7 @@ main:focus{outline:none}
 <a class="skip" href="#app" id="skip">Skip to content</a>
 <nav class="nav" aria-label="Main">
   <div class="wrap">
-    <div class="nav-left"><button type="button" class="backbtn" id="backbtn" hidden aria-label="Go back"><span class="bk-ar" aria-hidden="true">‹</span><span class="bk-t" id="back-label">Back</span></button>
+    <div class="nav-left"><button type="button" class="backbtn" id="backbtn" hidden aria-label="Go back"><span class="bk-ar" aria-hidden="true">‹</span><span class="back-t" id="back-label">Back</span></button>
     <a class="brand" href="#home">Duy Tran</a></div>
     <ul>
       <li><a href="#work" data-nav="work">Work</a></li>
@@ -939,7 +945,7 @@ main:focus{outline:none}
           <p class="t-note">YEAH1 Group · 2023</p>
           <div class="t-ctas"><span class="pill">Learn more</span><span class="pill alt">See results</span></div>
         </div>
-        <div class="t-img rz"><img src="chidep-hero.webp" width="2000" height="878" alt="The 30 contestants of Chị Đẹp Đạp Gió Rẽ Sóng on a ship-shaped stage" loading="lazy"></div>
+        <div class="t-img rz"><video class="bgv" autoplay muted loop playsinline webkit-playsinline disablepictureinpicture preload="auto" data-anim="chidep-loop.webp" poster="chidep-poster.webp" aria-label="Chị Đẹp Đạp Gió Rẽ Sóng key visual, silent loop" width="1280" height="720"><source src="chidep-loop-m.mp4" type="video/mp4" media="(max-width: 760px)"><source src="chidep-loop.mp4" type="video/mp4"></video></div>
       </a>
 
       <div class="tile-grid" id="tile-grid"></div>
@@ -1112,7 +1118,7 @@ var PROJECTS=[
   role:'Content Marketing, Social Media',
   short:'Building the audience for a new reality format with 30 female artists.',
   lede:'The Vietnamese edition of Sisters Who Make Waves: 30 female artists stepping outside their usual image to compete as girl groups.',
-  hero:'chidep-hero.webp',heroAlt:'The 30 contestants of Chị Đẹp Đạp Gió Rẽ Sóng on a ship-shaped stage',
+  hero:'chidep-hero.webp',heroAlt:'The 30 contestants of Chị Đẹp Đạp Gió Rẽ Sóng on a ship sailing through purple waves',video:{loop:'chidep-loop.mp4',mobile:'chidep-loop-m.mp4',anim:'chidep-loop.webp',poster:'chidep-poster.webp',film:'chidep-film.mp4',title:'Chị Đẹp Đạp Gió Rẽ Sóng key visual',noctl:1},
   tags:['Content strategy','Spin-off series','Social editor','Creative design'],
   stats:[['1M+','YouTube views on the 1Pro Entertainment spin-off channel'],['185K','Views on the theme-song MV behind-the-scenes film I edited'],['2.5M','Views on one clip from the TikTok Focus Cam series I proposed and led'],['20%','of the show’s total TikTok views KPI'],['150K','Concurrent viewers for performance round 4']],
   goal:'Set a higher bar for Vietnamese reality TV with internationally benchmarked production, and take the show to a wider audience than broadcast alone could reach.',
@@ -1351,7 +1357,7 @@ function caseHTML(p){
     (p.logo?'<h1 class="ph-title ph-logo"><img src="'+p.logo+'"'+wh(p.logo)+' alt="'+esc(p.title)+'"></h1>':'<h1 class="ph-title">'+esc(p.title)+'</h1>')+'<p class="ph-lede">'+esc(p.lede)+'</p>'+
     '<p class="ph-role">'+esc(p.role)+'</p></div>'+
     (p.video&&p.cover?('<div class="case-img"><img src="'+p.hero+'"'+wh(p.hero)+' alt="'+esc(p.heroAlt)+'" fetchpriority="high"></div><div class="vctl"><button type="button" class="pill" data-film="'+esc(p.video.film)+'"'+(p.video.ratio?' data-film-ratio="'+p.video.ratio+'"':'')+' data-film-title="'+esc(p.video.title)+'"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>&nbsp;Watch the film</button></div>'):
-     p.video?('<div class="case-img has-video">'+videoTag(p.video,p.heroAlt)+'</div><div class="vctl"><button type="button" class="pill" data-film="'+esc(p.video.film)+'"'+(p.video.ratio?' data-film-ratio="'+p.video.ratio+'"':'')+' data-film-title="'+esc(p.video.title)+'"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>&nbsp;Watch the film</button><button type="button" class="vtoggle" aria-label="Pause background video">Pause</button></div>')
+     p.video?('<div class="case-img has-video">'+videoTag(p.video,p.heroAlt)+'</div>'+(p.video.noctl?'':'<div class="vctl"><button type="button" class="pill" data-film="'+esc(p.video.film)+'"'+(p.video.ratio?' data-film-ratio="'+p.video.ratio+'"':'')+' data-film-title="'+esc(p.video.title)+'"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>&nbsp;Watch the film</button><button type="button" class="vtoggle" aria-label="Pause background video">Pause</button></div>'))
       :('<div class="case-img"><img src="'+p.hero+'"'+wh(p.hero)+' alt="'+esc(p.heroAlt)+'" fetchpriority="high"></div>'))+
     '<ul class="tags">'+p.tags.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul></div></section>';
   if(p.credits){var cr=p.credits;function it(c){return '<span class="ci'+(c[2]?' me':'')+'"><i>'+esc(c[0])+'</i> '+esc(c[1])+'</span>';}
@@ -1634,6 +1640,9 @@ document.getElementById('backbtn').addEventListener('click',goBack);
     var t=e.target.closest&&e.target.closest('.tile-hero:not(.intro),.ttile,.pcard,.mcard,.next-tile,img[data-zoom],a,button');
     var big=t&&t.matches('.tile-hero,.ttile,.pcard,.mcard,.next-tile,img[data-zoom]');
     cur.classList.toggle('big',!!big);cur.classList.toggle('link',!!t&&!big);
+    var pa=e.target.closest&&e.target.closest('a[href^="#"]'),pid=pa&&pa.getAttribute('href').slice(1),cp=(location.hash||'').slice(1);
+    var tint=(pid&&byId[pid]&&byId[pid].tint)||(byId[cp]&&byId[cp].tint)||'#ffffff';
+    if(cur.dataset.tint!==tint){cur.dataset.tint=tint;cur.style.setProperty('--cur',tint);}
     cur.querySelector('span').textContent=t&&t.matches('img[data-zoom]')?'Zoom':'View';
   });
   document.addEventListener('pointerleave',function(){cur.classList.remove('on')});
